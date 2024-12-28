@@ -1,8 +1,7 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { RegisterUserInput } from './dto/registerUser.input';
-import { DatabaseService } from '../database/database.service';
+import { DatabaseService } from '../utilities/database/database.service';
 import { JwtService } from '@nestjs/jwt';
-import { GraphQLError } from 'graphql/error';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -18,11 +17,7 @@ export class UsersService {
       },
     });
     if (isUserExist) {
-      throw new GraphQLError('User already exists', {
-        extensions: {
-          code: HttpStatus.BAD_REQUEST,
-        },
-      });
+      throw new NotFoundException('User already exists');
     }
 
     // Hash the password before saving it to the database
