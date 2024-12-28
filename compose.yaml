@@ -1,0 +1,40 @@
+services:
+  teebay_backend:
+    container_name: teebay_backend
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+    ports:
+      - '5000:5000'
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@teebay_db:5432/postgres?schema=public
+
+    depends_on:
+      - teebay_db
+
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -f http://localhost:5000/health || exit 1']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  teebay_db:
+    container_name: teebay_db
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - '5433:5432'
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+volumes:
+  pgdata: {}
