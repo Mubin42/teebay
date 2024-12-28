@@ -1,0 +1,30 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Mutation {
+  createUser(registerUserInput: RegisterUserInput!): User!
+  removeUser(id: Int!): User!
+}
+
+type Query {
+  user(id: Int!): User!
+  users: [User!]!
+}
+
+input RegisterUserInput {
+  address: String
+  email: String!
+  firstName: String!
+  lastName: String!
+  phoneNumber: String
+}
+
+type User {
+  address: String
+  email: String!
+  firstName: String!
+  id: Int!
+  lastName: String!
+  phoneNumber: String
+}

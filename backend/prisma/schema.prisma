@@ -14,15 +14,49 @@ datasource db {
 }
 
 model User {
-  id          String  @id @default(cuid())
+  id          String    @id @default(cuid())
   firstName   String
   lastName    String
-  email       String  @unique
+  email       String    @unique
+  password    String
   address     String?
   phoneNumber String?
+  Product     Product[]
 }
 
 model Category {
-  id   String @id @default(cuid())
-  name String
+  id           String               @id @default(cuid())
+  name         String
+  categoryMaps ProductCategoryMap[]
+}
+
+model Product {
+  id              String               @id @default(cuid())
+  title           String
+  description     String?
+  price           Float
+  rentPricePerDay Float
+  userId          String
+  user            User                 @relation(fields: [userId], references: [id])
+  categoryMaps    ProductCategoryMap[]
+  rents           Rent[]
+}
+
+model ProductCategoryMap {
+  productId  String
+  categoryId String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  category   Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@id([productId, categoryId])
+}
+
+model Rent {
+  id        String   @id @default(cuid())
+  startDay  DateTime
+  endDay    DateTime
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, startDay, endDay])
 }
