@@ -1,74 +1,72 @@
 'use client';
 
 import { NextPage } from 'next';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
 import React from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/buttons/PasswordInput';
+import Link from 'next/link';
+import { loginSchema, LoginSchemaType } from '@/form-schema/login';
+import AuthWrapper from '@/components/wrappers/AuthWrapper';
 
 const LoginPage: NextPage = () => {
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm<LoginSchemaType>({
+		resolver: zodResolver(loginSchema),
+	});
+
+	const onSubmit: SubmitHandler<LoginSchemaType> = data => {
+		alert(JSON.stringify(data));
+	};
+
 	return (
-		<div className='flex min-h-svh w-full items-center justify-center p-6 md:p-10'>
-			<div className='w-full max-w-sm'>
+		<AuthWrapper
+			title='Login'
+			description='Please enter your credential to login'
+		>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className='flex flex-col gap-6'>
-					<Card>
-						<CardHeader>
-							<CardTitle className='text-2xl'>Login</CardTitle>
-							<CardDescription>
-								Enter your email below to login to your account
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<form>
-								<div className='flex flex-col gap-6'>
-									<div className='grid gap-2'>
-										<Label htmlFor='email'>Email</Label>
-										<Input
-											id='email'
-											type='email'
-											placeholder='m@example.com'
-											required
-										/>
-									</div>
-									<div className='grid gap-2'>
-										<div className='flex items-center'>
-											<Label htmlFor='password'>Password</Label>
-											<a
-												href='#'
-												className='ml-auto inline-block text-sm underline-offset-4 hover:underline'
-											>
-												Forgot your password?
-											</a>
-										</div>
-										<PasswordInput id='password' type='password' required />
-									</div>
-									<Button type='submit' className='w-full'>
-										Login
-									</Button>
-									<Button variant='outline' className='w-full'>
-										Login with Google
-									</Button>
-								</div>
-								<div className='mt-4 text-center text-sm'>
-									Don&apos;t have an account?{' '}
-									<a href='#' className='underline underline-offset-4'>
-										Sign up
-									</a>
-								</div>
-							</form>
-						</CardContent>
-					</Card>
+					<div className='grid gap-2'>
+						<Label htmlFor='email'>Email</Label>
+						<Input
+							id='email'
+							type='email'
+							placeholder='m@example.com'
+							{...register('email')}
+						/>
+						{errors.email && (
+							<span className='text-xs text-red-400'>
+								{errors.email.message}
+							</span>
+						)}
+					</div>
+					<div className='grid gap-2'>
+						<Label htmlFor='password'>Password</Label>
+						<PasswordInput id='password' {...register('password')} />
+						{errors.password && (
+							<span className='text-xs text-red-400'>
+								{errors.password.message}
+							</span>
+						)}
+					</div>
+					<Button type='submit' className='w-full'>
+						Login
+					</Button>
 				</div>
-			</div>
-		</div>
+				<div className='mt-4 text-center text-sm'>
+					{`Don't have an account? `}
+					<Link href='/auth/register' className='underline underline-offset-4'>
+						Register
+					</Link>
+				</div>
+			</form>
+		</AuthWrapper>
 	);
 };
 

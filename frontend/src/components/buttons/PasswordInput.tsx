@@ -9,8 +9,6 @@ const PasswordInput = React.forwardRef<
 	React.ComponentProps<'input'>
 >(({ className, ...props }, ref) => {
 	const [showPassword, setShowPassword] = React.useState(false);
-	const disabled =
-		props.value === '' || props.value === undefined || props.disabled;
 
 	return (
 		<div className='relative'>
@@ -27,9 +25,8 @@ const PasswordInput = React.forwardRef<
 				size='sm'
 				className='absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent'
 				onClick={() => setShowPassword(prev => !prev)}
-				disabled={disabled}
 			>
-				{showPassword && !disabled ? (
+				{showPassword ? (
 					<EyeIcon className='h-4 w-4' aria-hidden='true' />
 				) : (
 					<EyeOffIcon className='h-4 w-4' aria-hidden='true' />
@@ -41,13 +38,13 @@ const PasswordInput = React.forwardRef<
 
 			{/* hides browsers password toggles */}
 			<style>{`
-					.hide-password-toggle::-ms-reveal,
-					.hide-password-toggle::-ms-clear {
-						visibility: hidden;
-						pointer-events: none;
-						display: none;
-					}
-				`}</style>
+        .hide-password-toggle::-ms-reveal,
+        .hide-password-toggle::-ms-clear {
+          visibility: hidden;
+          pointer-events: none;
+          display: none;
+        }
+      `}</style>
 		</div>
 	);
 });
