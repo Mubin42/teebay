@@ -8,6 +8,7 @@ import {
 } from '@apollo/experimental-nextjs-app-support';
 import { ReactNode } from 'react';
 import { setContext } from '@apollo/client/link/context';
+import { AUTH_TOKEN_NAME } from '@/lib/constants';
 
 function makeClient() {
 	const httpLink = new HttpLink({
@@ -16,7 +17,7 @@ function makeClient() {
 	});
 
 	const authLink = setContext((_, { headers }) => {
-		const token = localStorage.getItem('teebay_token');
+		const token = localStorage.getItem(AUTH_TOKEN_NAME);
 		return {
 			headers: {
 				...headers,

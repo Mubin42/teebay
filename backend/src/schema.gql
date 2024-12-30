@@ -17,7 +17,7 @@ type Mutation {
 }
 
 type Query {
-  users: [User!]!
+  getSelf: Self!
 }
 
 input RegisterUserInput {
@@ -27,6 +27,13 @@ input RegisterUserInput {
   lastName: String!
   password: String!
   phoneNumber: String
+}
+
+type Self {
+  email: String!
+  firstName: String!
+  id: ID!
+  lastName: String!
 }
 
 type User {

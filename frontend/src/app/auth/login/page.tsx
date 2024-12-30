@@ -14,6 +14,7 @@ import AuthWrapper from '@/components/wrappers/AuthWrapper';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '@/graphql/mutations';
 import { toast } from '@/hooks/use-toast';
+import { AUTH_TOKEN_NAME } from '@/lib/constants';
 
 const LoginPage: NextPage = () => {
 	const {
@@ -39,7 +40,7 @@ const LoginPage: NextPage = () => {
 				description: 'You have successfully logged in',
 				variant: 'default',
 			});
-			localStorage.setItem('teebay_token', result.data.login.token);
+			localStorage.setItem(AUTH_TOKEN_NAME, result.data.login.token);
 			window.location.href = '/';
 		}
 		if (result.error) {

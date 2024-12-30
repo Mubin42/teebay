@@ -4,6 +4,10 @@ import { User } from './entities/user.entity';
 import { RegisterUserInput } from './dto/registerUser.input';
 import { LoginInput } from './dto/login.input';
 import { LoginResponse } from './entities/login.entity';
+import { Self } from './entities/self.entity';
+import { LoggedInUser } from '../common/decorators/loggedInUser.decorator';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -22,8 +26,9 @@ export class UsersResolver {
     return { token };
   }
 
-  @Query(() => [User])
-  async users() {
-    return this.usersService.findAll();
+  @UseGuards(AuthGuard)
+  @Query(() => Self)
+  async getSelf(@LoggedInUser() user: LoggedInUser) {
+    return user;
   }
 }

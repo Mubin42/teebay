@@ -20,3 +20,14 @@ export const LOGIN = gql`
 		}
 	}
 `;
+
+export const GET_SELF = gql`
+	query GetSelf {
+		getSelf {
+			id
+			firstName
+			lastName
+			email
+		}
+	}
+`;

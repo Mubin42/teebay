@@ -1,7 +1,9 @@
-import { NextPage } from "next";
+'use client';
+import { NextPage } from 'next';
+import PageWrapper from '@/components/wrappers/PageWrapper';
 
 const Home: NextPage = () => {
-  return <div>Hello world</div>;
+	return <PageWrapper>Hello World</PageWrapper>;
 };
 
 export default Home;
