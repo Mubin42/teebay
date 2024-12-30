@@ -3,6 +3,7 @@ import { RegisterUserInput } from './dto/registerUser.input';
 import { DatabaseService } from '../utilities/database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
+import { LoginInput } from './dto/login.input';
 
 @Injectable()
 export class UsersService {
@@ -30,5 +31,33 @@ export class UsersService {
 
   async findAll() {
     return this.databaseService.user.findMany();
+  }
+
+  async login(loginInput: LoginInput) {
+    const user = await this.databaseService.user.findUnique({
+      where: {
+        email: loginInput.email,
+      },
+    });
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      loginInput.password,
+      user.password,
+    );
+
+    if (!isPasswordValid) {
+      throw new NotFoundException('Invalid password');
+    }
+
+    const token = this.jwtService.sign({ id: user.id });
+
+    return {
+      token: `Bearer ${token}`,
+      user,
+    };
   }
 }
