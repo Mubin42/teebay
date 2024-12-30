@@ -3,7 +3,7 @@
 # ------------------------------------------------------
 
 type Mutation {
-  createUser(registerUserInput: RegisterUserInput!): User!
+  registerUser(registerUserInput: RegisterUserInput!): User!
 }
 
 type Query {
@@ -23,7 +23,7 @@ type User {
   address: String
   email: String!
   firstName: String!
-  id: Int!
+  id: ID!
   lastName: String!
   password: String!
   phoneNumber: String

@@ -1,7 +1,7 @@
 'use client';
 
 import { NextPage } from 'next';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,10 @@ import { PasswordInput } from '@/components/buttons/PasswordInput';
 import Link from 'next/link';
 import AuthWrapper from '@/components/wrappers/AuthWrapper';
 import { registerSchema, RegisterSchemaType } from '@/form-schema/register';
+import { useMutation } from '@apollo/client';
+import { REGISTER_USER } from '@/graphql/mutations';
+import { useRouter } from 'next/navigation';
+import { toast } from '@/hooks/use-toast';
 
 const RegisterPage: NextPage = () => {
 	const {
@@ -21,9 +25,42 @@ const RegisterPage: NextPage = () => {
 		resolver: zodResolver(registerSchema),
 	});
 
+	// GQL mutation
+	const [registerUser, result] = useMutation(REGISTER_USER);
+	const router = useRouter();
+
 	const onSubmit: SubmitHandler<RegisterSchemaType> = data => {
-		alert(JSON.stringify(data));
+		registerUser({
+			variables: {
+				input: {
+					firstName: data.firstName,
+					lastName: data.lastName,
+					email: data.email,
+					phoneNumber: data.phone,
+					address: data.address,
+					password: data.password,
+				},
+			},
+		}).then(r => r);
 	};
+
+	useEffect(() => {
+		if (result.data) {
+			toast({
+				title: 'Registration Success',
+				description: 'Please login to continue',
+				variant: 'default',
+			});
+			router.push('/auth/login');
+		}
+		if (result.error) {
+			toast({
+				title: 'Registration Failed',
+				description: result.error.message,
+				variant: 'destructive',
+			});
+		}
+	}, [result, router]);
 
 	return (
 		<AuthWrapper
@@ -129,8 +166,12 @@ const RegisterPage: NextPage = () => {
 							</span>
 						)}
 					</div>
-					<Button type='submit' className='col-span-2 w-full'>
-						Login
+					<Button
+						type='submit'
+						className='col-span-2 w-full'
+						isLoading={result.loading}
+					>
+						Register
 					</Button>
 					<div className='col-span-2 mt-4 text-center text-sm'>
 						{`Already have an account? `}
