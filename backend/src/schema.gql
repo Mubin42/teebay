@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Category {
+  categoryMaps: [ProductCategoryMap!]!
+  id: ID!
+  name: String!
+}
+
+input CreateProductInput {
+  categoryIds: [String!]!
+  description: String!
+  price: Float!
+  rentPricePerDay: Float!
+  title: String!
+  userId: Float!
+}
+
 input LoginInput {
   email: String!
   password: String!
@@ -12,11 +27,32 @@ type LoginResponse {
 }
 
 type Mutation {
+  createProduct(createProductInput: CreateProductInput!): Product!
   login(loginInput: LoginInput!): LoginResponse!
   registerUser(registerUserInput: RegisterUserInput!): User!
 }
 
+type Product {
+  categoryMaps: [ProductCategoryMap!]!
+  description: String
+  id: ID!
+  isCurrentlyRented: Boolean!
+  price: Float!
+  rentPricePerDay: Float!
+  title: String!
+  user: User!
+  userId: String!
+}
+
+type ProductCategoryMap {
+  category: Category!
+  categoryId: ID!
+  product: Product!
+  productId: ID!
+}
+
 type Query {
+  getMyProducts: [Product!]!
   getSelf: Self!
 }
 
