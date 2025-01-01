@@ -27,7 +27,10 @@ export class Product {
 
   @Field(() => [ProductCategoryMap])
   categoryMaps: ProductCategoryMap[];
+}
 
+@ObjectType()
+export class ProductWithRentedStatus extends Product {
   @Field()
   isCurrentlyRented: boolean;
 }

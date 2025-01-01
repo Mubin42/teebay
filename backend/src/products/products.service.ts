@@ -43,15 +43,42 @@ export class ProductsService {
   }
 
   async findProductsByUser(user: LoggedInUser) {
-    const data = await this.databaseService.product.findMany({
+    return this.databaseService.product.findMany({
       where: {
         userId: user.id,
       },
     });
+  }
 
-    return data.map((product) => ({
-      ...product,
-      isCurrentlyRented: false,
-    }));
+  async findProductById(id: string) {
+    const data = await this.databaseService.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!data) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return data;
+  }
+
+  async delete(id: string) {
+    const product = await this.databaseService.product.findFirst({
+      where: {
+        id,
+      },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return this.databaseService.product.delete({
+      where: {
+        id,
+      },
+    });
   }
 }

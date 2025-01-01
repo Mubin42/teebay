@@ -28,4 +28,14 @@ export class ProductsResolver {
   async getMyProducts(@LoggedInUser() user: LoggedInUser) {
     return this.productsService.findProductsByUser(user);
   }
+
+  @Query(() => Product)
+  async getProductById(@Args('id') id: string) {
+    return this.productsService.findProductById(id);
+  }
+
+  @Query(() => String)
+  async deleteProductById(@Args('id') id: string) {
+    return this.productsService.delete(id);
+  }
 }
