@@ -22,7 +22,7 @@ const FormWrapper: FC<Props> = ({
 	className,
 }) => {
 	return (
-		<Card className={cn('w-1/3', className)}>
+		<Card className={cn('min-h-72 w-1/2', className)}>
 			<CardHeader>
 				<CardTitle className='text-2xl'>{title}</CardTitle>
 				<CardDescription>{description}</CardDescription>
