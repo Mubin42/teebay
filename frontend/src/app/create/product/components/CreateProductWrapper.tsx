@@ -8,9 +8,10 @@ import { Progress } from '@/components/ui/progress';
 type Props = {
 	children: React.ReactNode;
 	step: CompactState<number>;
+	handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const CreateProductWrapper: FC<Props> = ({ children, step }) => {
+const CreateProductWrapper: FC<Props> = ({ children, step, handleSubmit }) => {
 	return (
 		<PageWrapper title='Create Product'>
 			<div className='relative flex h-full w-full items-center'>
@@ -23,7 +24,9 @@ const CreateProductWrapper: FC<Props> = ({ children, step }) => {
 						<ChevronLeft className='mr-2 h-4 w-4' />
 						Back
 					</Button>
-					{children}
+					<form onSubmit={handleSubmit} className='flex w-full justify-center'>
+						{children}
+					</form>
 
 					{/*Right Button*/}
 					<Button

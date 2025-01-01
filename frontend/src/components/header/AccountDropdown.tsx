@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import React, { FC } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_SELF } from '@/graphql/mutations';
+import { GET_SELF } from '@/graphql/queries';
 import { useRouter } from 'next/navigation';
 import { AUTH_TOKEN_NAME } from '@/lib/constants';
 

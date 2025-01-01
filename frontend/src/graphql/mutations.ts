@@ -21,13 +21,16 @@ export const LOGIN = gql`
 	}
 `;
 
-export const GET_SELF = gql`
-	query GetSelf {
-		getSelf {
+export const CREATE_PRODUCT = gql`
+	mutation CreateProduct($createProductInput: CreateProductInput!) {
+		createProduct(createProductInput: $createProductInput) {
 			id
-			firstName
-			lastName
-			email
+			title
+			description
+			price
+			rentPricePerDay
+			userId
+			isCurrentlyRented
 		}
 	}
 `;
