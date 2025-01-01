@@ -2,15 +2,7 @@
 import { NextPage } from 'next';
 import PageWrapper from '@/components/wrappers/PageWrapper';
 import { Button } from '@/components/ui/button';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
-import { Edit, Trash } from 'lucide-react';
+
 import ProductCard from '@/components/cards/ProductCard';
 
 const Home: NextPage = () => {

@@ -23,11 +23,6 @@ export class CreateProductInput {
   @IsNotEmpty()
   rentPricePerDay: number;
 
-  @Field()
-  @IsNumber()
-  @IsNotEmpty()
-  userId: number;
-
   @Field(() => [String])
   @IsString({ each: true })
   categoryIds: string[];

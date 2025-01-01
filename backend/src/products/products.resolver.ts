@@ -3,11 +3,14 @@ import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput } from './dto/createProduct.input';
 import { LoggedInUser } from '../common/decorators/loggedInUser.decorator';
+import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from '../common/guards/auth.guard';
 
 @Resolver(() => Product)
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
+  @UseGuards(AuthGuard)
   @Mutation(() => Product)
   async createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,

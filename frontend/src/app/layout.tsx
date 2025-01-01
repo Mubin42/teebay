@@ -4,6 +4,7 @@ import './globals.css';
 import ApolloProvider from '@/apollo/ApolloProvider';
 import { Toaster } from '@/components/ui/toaster';
 import React from 'react';
+import ReduxProvider from '@/store/ReduxProvider';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -30,7 +31,9 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
 			>
-				<ApolloProvider>{children}</ApolloProvider>
+				<ApolloProvider>
+					<ReduxProvider>{children}</ReduxProvider>
+				</ApolloProvider>
 				<Toaster />
 			</body>
 		</html>
