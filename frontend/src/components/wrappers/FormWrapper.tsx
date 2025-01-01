@@ -15,7 +15,7 @@ type Props = {
 	className?: string;
 };
 
-const AuthWrapper: FC<Props> = ({
+const FormWrapper: FC<Props> = ({
 	title,
 	description,
 	children,
@@ -32,4 +32,4 @@ const AuthWrapper: FC<Props> = ({
 	);
 };
 
-export default AuthWrapper;
+export default FormWrapper;

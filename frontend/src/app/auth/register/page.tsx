@@ -9,12 +9,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/buttons/PasswordInput';
 import Link from 'next/link';
-import AuthWrapper from '@/components/wrappers/AuthWrapper';
 import { registerSchema, RegisterSchemaType } from '@/form-schema/register';
 import { useMutation } from '@apollo/client';
 import { REGISTER_USER } from '@/graphql/mutations';
 import { useRouter } from 'next/navigation';
 import { toast } from '@/hooks/use-toast';
+import FormWrapper from '@/components/wrappers/FormWrapper';
 
 const RegisterPage: NextPage = () => {
 	const {
@@ -63,7 +63,7 @@ const RegisterPage: NextPage = () => {
 	}, [result, router]);
 
 	return (
-		<AuthWrapper
+		<FormWrapper
 			title='Register'
 			description='Enter your itentity to register'
 			className='w-1/2'
@@ -181,7 +181,7 @@ const RegisterPage: NextPage = () => {
 					</div>
 				</div>
 			</form>
-		</AuthWrapper>
+		</FormWrapper>
 	);
 };
 

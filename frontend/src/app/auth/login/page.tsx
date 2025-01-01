@@ -10,11 +10,11 @@ import { Button } from '@/components/ui/button';
 import { PasswordInput } from '@/components/buttons/PasswordInput';
 import Link from 'next/link';
 import { loginSchema, LoginSchemaType } from '@/form-schema/login';
-import AuthWrapper from '@/components/wrappers/AuthWrapper';
 import { useMutation } from '@apollo/client';
 import { LOGIN } from '@/graphql/mutations';
 import { toast } from '@/hooks/use-toast';
 import { AUTH_TOKEN_NAME } from '@/lib/constants';
+import FormWrapper from '@/components/wrappers/FormWrapper';
 
 const LoginPage: NextPage = () => {
 	const {
@@ -53,7 +53,7 @@ const LoginPage: NextPage = () => {
 	}, [result]);
 
 	return (
-		<AuthWrapper
+		<FormWrapper
 			title='Login'
 			description='Please enter your credential to login'
 		>
@@ -93,7 +93,7 @@ const LoginPage: NextPage = () => {
 					</Link>
 				</div>
 			</form>
-		</AuthWrapper>
+		</FormWrapper>
 	);
 };
 
