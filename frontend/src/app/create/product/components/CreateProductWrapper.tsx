@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import PageWrapper from '@/components/wrappers/PageWrapper';
-import { CompactState } from '../../../../types/CompactState';
+import { CompactState } from '@/types/CompactState';
 import { Progress } from '@/components/ui/progress';
 
 type Props = {

@@ -15,7 +15,7 @@ type Props = {
 	rentPricePerDay: CompactState<number>;
 };
 
-const options = [
+export const rentOptions = [
 	{ value: 'day', label: 'Per Day' },
 	{ value: 'week', label: 'Per Week' },
 	{ value: 'month', label: 'Per Month' },
@@ -26,7 +26,7 @@ const ProductPrice: React.FC<Props> = ({ price, rentPricePerDay }) => {
 	const [selected, setSelected] = useState<{
 		value: string;
 		label: string;
-	}>(options[0]);
+	}>(rentOptions[0]);
 
 	// Based on the selected value, calculating the rent price per day
 	useEffect(() => {
@@ -74,7 +74,8 @@ const ProductPrice: React.FC<Props> = ({ price, rentPricePerDay }) => {
 								setSelected({
 									value: value,
 									label:
-										options.find(option => option.value === value)?.label || '',
+										rentOptions.find(option => option.value === value)?.label ||
+										'',
 								});
 							}}
 						>
@@ -82,7 +83,7 @@ const ProductPrice: React.FC<Props> = ({ price, rentPricePerDay }) => {
 								<SelectValue placeholder={selected.label || 'Select status'} />
 							</SelectTrigger>
 							<SelectContent>
-								{options.map((item, index) => (
+								{rentOptions.map((item, index) => (
 									<SelectItem key={index} value={item.value}>
 										{item.label}
 									</SelectItem>

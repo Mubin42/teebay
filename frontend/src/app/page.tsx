@@ -32,48 +32,53 @@ const Home: NextPage = () => {
 		setOpenDeleteDialog(true);
 	};
 
+	const renderProducts =
+		data?.getMyProducts.length > 0 ? (
+			data?.getMyProducts?.map((item: any, index: number) => (
+				<Card key={index} className='w-[350px]'>
+					<CardHeader>
+						<CardTitle>{item.title}</CardTitle>
+						<CardDescription>{`Created At: ${item.createdAt}`}</CardDescription>
+						<CardDescription>{`Views: ${item.views}`}</CardDescription>
+					</CardHeader>
+					<CardContent>
+						<CardDescription>{item.description}</CardDescription>
+						<div className='flex items-center gap-2'>
+							<Label className='font-semibold'>Categories: </Label>
+							<span className='text-sm'>
+								{item?.categoryMaps
+									.map((catMap: any) => catMap.category.name)
+									.join(', ')}
+							</span>
+						</div>
+					</CardContent>
+					<CardFooter className='justify-end gap-2'>
+						<Link href={`/update/${item.id}/product`}>
+							<Button variant='outline' size='icon'>
+								<Edit className='h-4 w-4' />
+							</Button>
+						</Link>
+						<Button
+							variant='destructive'
+							size='icon'
+							onClick={() => handleDelete(item.id, item.title)}
+						>
+							<Trash className='h-4 w-4' />
+						</Button>
+					</CardFooter>
+				</Card>
+			))
+		) : (
+			<p>No products added</p>
+		);
+
 	return (
 		<PageWrapper title='My Products'>
 			<Link href='create/product'>
 				<Button>Add Product</Button>
 			</Link>
 			<div className='flex flex-col gap-4'>
-				{data?.getMyProducts.length > 0 ? (
-					data?.getMyProducts?.map((item: any, index: number) => (
-						<Card key={index} className='w-[350px]'>
-							<CardHeader>
-								<CardTitle>{item.title}</CardTitle>
-								<CardDescription>{`Created At: ${item.createdAt}`}</CardDescription>
-								<CardDescription>{`Views: ${item.views}`}</CardDescription>
-							</CardHeader>
-							<CardContent>
-								<CardDescription>{item.description}</CardDescription>
-								<div className='flex items-center gap-2'>
-									<Label className='font-semibold'>Categories: </Label>
-									<span className='text-sm'>
-										{item?.categoryMaps
-											.map((catMap: any) => catMap.category.name)
-											.join(', ')}
-									</span>
-								</div>
-							</CardContent>
-							<CardFooter className='justify-end gap-2'>
-								<Button variant='outline' size='icon'>
-									<Edit className='h-4 w-4' />
-								</Button>
-								<Button
-									variant='destructive'
-									size='icon'
-									onClick={() => handleDelete(item.id, item.title)}
-								>
-									<Trash className='h-4 w-4' />
-								</Button>
-							</CardFooter>
-						</Card>
-					))
-				) : (
-					<p>No products added</p>
-				)}
+				{renderProducts}
 				<DeleteProductDialog
 					open={{
 						value: openDeleteDialog,
