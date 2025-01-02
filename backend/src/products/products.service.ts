@@ -66,6 +66,13 @@ export class ProductsService {
       where: {
         id,
       },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
+      },
     });
 
     if (!data) {

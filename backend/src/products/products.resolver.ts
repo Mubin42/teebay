@@ -6,6 +6,7 @@ import { LoggedInUser } from '../common/decorators/loggedInUser.decorator';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { Category } from './entities/category.entity';
+import { UpdateProductInput } from './dto/updateProduct.input';
 
 @UseGuards(AuthGuard)
 @Resolver(() => Product)
@@ -23,7 +24,7 @@ export class ProductsResolver {
   @Mutation(() => Product)
   async updateProduct(
     @Args('id') id: string,
-    @Args('updateProductInput') updateProductInput: CreateProductInput,
+    @Args('updateProductInput') updateProductInput: UpdateProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
     return this.productsService.updateProduct(id, updateProductInput, user);
@@ -40,7 +41,7 @@ export class ProductsResolver {
   }
 
   @Query(() => Product)
-  async getProductById(@Args('id') id: string) {
+  async getProduct(@Args('id') id: string) {
     return this.productsService.findProductById(id);
   }
 

@@ -35,7 +35,7 @@ type Mutation {
   deleteProduct(id: String!): Product!
   login(loginInput: LoginInput!): LoginResponse!
   registerUser(registerUserInput: RegisterUserInput!): User!
-  updateProduct(id: String!, updateProductInput: CreateProductInput!): Product!
+  updateProduct(id: String!, updateProductInput: UpdateProductInput!): Product!
 }
 
 type Product {
@@ -61,7 +61,7 @@ type ProductCategoryMap {
 type Query {
   getCategories: [Category!]!
   getMyProducts: [Product!]!
-  getProductById(id: String!): Product!
+  getProduct(id: String!): Product!
   getSelf: Self!
 }
 
@@ -79,6 +79,14 @@ type Self {
   firstName: String!
   id: ID!
   lastName: String!
+}
+
+input UpdateProductInput {
+  categoryIds: [String!]
+  description: String
+  price: Float
+  rentPricePerDay: Float
+  title: String
 }
 
 type User {
