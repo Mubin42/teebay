@@ -14,14 +14,15 @@ datasource db {
 }
 
 model User {
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
   firstName   String
   lastName    String
-  email       String    @unique
+  email       String     @unique
   password    String
   address     String?
   phoneNumber String?
   Product     Product[]
+  purchases   Purchase[]
 }
 
 model Category {
@@ -40,6 +41,7 @@ model Product {
   createdAt       DateTime             @default(now())
   views           Int                  @default(0)
   user            User                 @relation(fields: [userId], references: [id])
+  purchase        Purchase?
   categoryMaps    ProductCategoryMap[]
   rents           Rent[]
 }
@@ -62,4 +64,14 @@ model Rent {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([productId, startDay, endDay])
+}
+
+model Purchase {
+  id        String   @id @default(cuid())
+  productId String   @unique
+  userId    String
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

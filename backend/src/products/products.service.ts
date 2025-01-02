@@ -146,4 +146,33 @@ export class ProductsService {
 
     return updatedProduct;
   }
+
+  async getAllProducts() {
+    const now = new Date();
+
+    return this.databaseService.product.findMany({
+      where: {
+        // Show product that are not sold
+        // sold: false,
+
+        // Show product that are not rented right now
+        rents: {
+          some: {
+            AND: [
+              {
+                startDay: {
+                  lte: now,
+                },
+              },
+              {
+                endDay: {
+                  gte: now,
+                },
+              },
+            ],
+          },
+        },
+      },
+    });
+  }
 }
