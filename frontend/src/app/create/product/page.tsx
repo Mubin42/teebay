@@ -2,7 +2,6 @@
 import { NextPage } from 'next';
 import CreateProductWrapper from '@/app/create/product/components/CreateProductWrapper';
 import React, { useEffect, useState } from 'react';
-
 import { useMutation } from '@apollo/client';
 import { CREATE_PRODUCT } from '@/graphql/mutations';
 import { toast } from '@/hooks/use-toast';
@@ -13,6 +12,11 @@ import ProductDescription from '@/app/create/product/components/ProductDescripti
 import ProductPrice from '@/app/create/product/components/ProductPrice';
 import ProductSummary from '@/app/create/product/components/ProductSummary';
 
+export type CategoriesType = {
+	id: string;
+	name: string;
+};
+
 const CreateProductPage: NextPage = ({}) => {
 	const [step, setStep] = useState(1);
 
@@ -20,7 +24,7 @@ const CreateProductPage: NextPage = ({}) => {
 	const [description, setDescription] = useState('');
 	const [price, setPrice] = useState(0);
 	const [rentPricePerDay, setRentPricePerDay] = useState(0);
-	const [categoryIds, setCategoryIds] = useState<string[]>([]);
+	const [categories, setCategories] = useState<CategoriesType[]>([]);
 
 	const router = useRouter();
 
@@ -34,12 +38,10 @@ const CreateProductPage: NextPage = ({}) => {
 			description,
 			price,
 			rentPricePerDay,
-			categoryIds,
+			categoryIds: categories.map(c => c.id),
 		};
 
-		// createProduct({ variables: { createProductInput: input } }).then(r => r);
-
-		alert(JSON.stringify(input));
+		createProduct({ variables: { createProductInput: input } }).then(r => r);
 	};
 
 	useEffect(() => {
@@ -78,9 +80,9 @@ const CreateProductPage: NextPage = ({}) => {
 			step: 2,
 			node: (
 				<ProductCategories
-					categoryIds={{
-						value: categoryIds,
-						set: setCategoryIds,
+					categories={{
+						value: categories,
+						set: setCategories,
 					}}
 				/>
 			),
@@ -116,7 +118,15 @@ const CreateProductPage: NextPage = ({}) => {
 
 		{
 			step: 5,
-			node: <ProductSummary />,
+			node: (
+				<ProductSummary
+					title={title}
+					description={description}
+					price={price}
+					rentPricePerDay={rentPricePerDay}
+					categories={categories}
+				/>
+			),
 		},
 	];
 

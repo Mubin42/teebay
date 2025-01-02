@@ -37,6 +37,8 @@ model Product {
   price           Float
   rentPricePerDay Float
   userId          String
+  createdAt       DateTime             @default(now())
+  views           Int                  @default(0)
   user            User                 @relation(fields: [userId], references: [id])
   categoryMaps    ProductCategoryMap[]
   rents           Rent[]
@@ -56,6 +58,7 @@ model Rent {
   startDay  DateTime
   endDay    DateTime
   productId String
+  createdAt DateTime @default(now())
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([productId, startDay, endDay])

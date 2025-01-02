@@ -29,8 +29,6 @@ export const CREATE_PRODUCT = gql`
 			description
 			price
 			rentPricePerDay
-			userId
-			isCurrentlyRented
 		}
 	}
 `;

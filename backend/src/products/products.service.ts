@@ -29,14 +29,17 @@ export class ProductsService {
         price: createProductInput.price,
         rentPricePerDay: createProductInput.rentPricePerDay,
         userId: user.id,
+        // generate random number between 1 and 100
+        // views: Math.floor(Math.random() * 100) + 1,
       },
     });
 
-    createProductInput.categoryIds.map((categoryId) => {
-      return {
+    // add product categories
+    await this.databaseService.productCategoryMap.createMany({
+      data: createProductInput.categoryIds.map((categoryId) => ({
         categoryId,
         productId: newProduct.id,
-      };
+      })),
     });
 
     return newProduct;
@@ -46,6 +49,13 @@ export class ProductsService {
     return this.databaseService.product.findMany({
       where: {
         userId: user.id,
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
       },
     });
   }
@@ -80,5 +90,9 @@ export class ProductsService {
         id,
       },
     });
+  }
+
+  async getCategories() {
+    return this.databaseService.category.findMany();
   }
 }

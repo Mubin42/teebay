@@ -10,3 +10,32 @@ export const GET_SELF = gql`
 		}
 	}
 `;
+
+export const GET_CATEGORIES = gql`
+	query GetCategories {
+		getCategories {
+			id
+			name
+		}
+	}
+`;
+
+export const GET_MY_PRODUCTS = gql`
+	query GetMyProducts {
+		getMyProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+		}
+	}
+`;

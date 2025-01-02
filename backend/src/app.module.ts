@@ -4,10 +4,24 @@ import { DatabaseModule } from './utilities/database/database.module';
 import { UsersModule } from './users/users.module';
 import { GraphqlConfigModule } from './utilities/graphql-config/graphql.module';
 import { ProductsModule } from './products/products.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './common/guards/auth.guard';
+import { GlobalJwtModule } from './utilities/jwt/jwt.module';
 
 @Module({
-  imports: [DatabaseModule, GraphqlConfigModule, UsersModule, ProductsModule],
+  imports: [
+    DatabaseModule,
+    GlobalJwtModule,
+    GraphqlConfigModule,
+    UsersModule,
+    ProductsModule,
+  ],
   controllers: [AppController],
-  providers: [],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}

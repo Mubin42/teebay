@@ -5,6 +5,7 @@ import { CreateProductInput } from './dto/createProduct.input';
 import { LoggedInUser } from '../common/decorators/loggedInUser.decorator';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
+import { Category } from './entities/category.entity';
 
 @Resolver(() => Product)
 export class ProductsResolver {
@@ -40,5 +41,10 @@ export class ProductsResolver {
   @Query(() => String)
   async deleteProductById(@Args('id') id: string) {
     return this.productsService.delete(id);
+  }
+
+  @Query(() => [Category])
+  async getCategories() {
+    return this.productsService.getCategories();
   }
 }

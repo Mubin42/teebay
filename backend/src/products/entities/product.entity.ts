@@ -22,6 +22,12 @@ export class Product {
   @Field()
   userId: string;
 
+  @Field()
+  views: number;
+
+  @Field()
+  createdAt: Date;
+
   @Field(() => User)
   user: User;
 

@@ -14,8 +14,12 @@ input CreateProductInput {
   price: Float!
   rentPricePerDay: Float!
   title: String!
-  userId: Float!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 input LoginInput {
   email: String!
@@ -34,14 +38,15 @@ type Mutation {
 
 type Product {
   categoryMaps: [ProductCategoryMap!]!
+  createdAt: DateTime!
   description: String
   id: ID!
-  isCurrentlyRented: Boolean!
   price: Float!
   rentPricePerDay: Float!
   title: String!
   user: User!
   userId: String!
+  views: Float!
 }
 
 type ProductCategoryMap {
@@ -52,7 +57,10 @@ type ProductCategoryMap {
 }
 
 type Query {
+  deleteProductById(id: String!): String!
+  getCategories: [Category!]!
   getMyProducts: [Product!]!
+  getProductById(id: String!): Product!
   getSelf: Self!
 }
 

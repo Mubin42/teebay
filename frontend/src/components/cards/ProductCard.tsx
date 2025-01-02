@@ -10,21 +10,45 @@ import {
 import { Button } from '@/components/ui/button';
 import { Edit, Trash } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 
 type Props = {
 	className?: string;
+	title: string;
+	description: string;
+	createdAt: string;
+	views: number;
+	categoryMaps: {
+		category: {
+			id: string;
+			name: string;
+		};
+	}[];
 };
 
-const ProductCard: FC<Props> = ({ className }) => {
+const ProductCard: FC<Props> = ({
+	className,
+	title,
+	views,
+	createdAt,
+	description,
+	categoryMaps,
+}) => {
 	return (
 		<Card className={cn('w-[350px]', className)}>
 			<CardHeader>
-				<CardTitle>Product Name</CardTitle>
-				<CardDescription>Date Posted: 12/12/2021, 12:00:00</CardDescription>
-				<CardDescription>Total Views: 1000</CardDescription>
+				<CardTitle>{title}</CardTitle>
+				<CardDescription>{`Created At: ${createdAt}`}</CardDescription>
+				<CardDescription>{`Views: ${views}`}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				{`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`}
+				<CardDescription>{description}</CardDescription>
+				<div className='flex items-center gap-2'>
+					<Label className='font-semibold'>Categories: </Label>
+					<span className='text-sm'>
+						{categoryMaps.map(catMap => catMap.category.name).join(', ')}
+					</span>
+				</div>
 			</CardContent>
 			<CardFooter className='justify-end gap-2'>
 				<Button variant='outline' size='icon'>
