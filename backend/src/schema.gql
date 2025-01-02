@@ -34,6 +34,7 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   login(loginInput: LoginInput!): LoginResponse!
   registerUser(registerUserInput: RegisterUserInput!): User!
+  updateProduct(id: String!, updateProductInput: CreateProductInput!): Product!
 }
 
 type Product {

@@ -17,15 +17,16 @@ export class ProductsResolver {
     @Args('createProductInput') createProductInput: CreateProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    const newProduct = await this.productsService.create(
-      createProductInput,
-      user,
-    );
+    return await this.productsService.create(createProductInput, user);
+  }
 
-    return {
-      ...newProduct,
-      isCurrentlyRented: false,
-    };
+  @Mutation(() => Product)
+  async updateProduct(
+    @Args('id') id: string,
+    @Args('updateProductInput') updateProductInput: CreateProductInput,
+    @LoggedInUser() user: LoggedInUser,
+  ) {
+    return this.productsService.updateProduct(id, updateProductInput, user);
   }
 
   @Query(() => [Product])
