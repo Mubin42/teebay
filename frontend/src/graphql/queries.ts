@@ -39,3 +39,23 @@ export const GET_MY_PRODUCTS = gql`
 		}
 	}
 `;
+
+export const GET_PRODUCT = gql`
+	query GetProduct($id: String!) {
+		getProduct(id: $id) {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+		}
+	}
+`;
