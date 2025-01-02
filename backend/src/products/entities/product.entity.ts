@@ -36,7 +36,4 @@ export class Product {
 }
 
 @ObjectType()
-export class ProductWithRentedStatus extends Product {
-  @Field()
-  isCurrentlyRented: boolean;
-}
+export class ProductWithRentedStatus extends Product {}

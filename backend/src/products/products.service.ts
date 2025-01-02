@@ -153,8 +153,13 @@ export class ProductsService {
     return this.databaseService.product.findMany({
       where: {
         // Show product that are not sold
-        // sold: false,
-
+        purchase: {
+          isNot: {
+            id: {
+              not: undefined,
+            },
+          },
+        },
         // Show product that are not rented right now
         rents: {
           some: {

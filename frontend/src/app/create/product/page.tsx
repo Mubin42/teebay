@@ -11,6 +11,7 @@ import ProductCategories from '@/app/create/product/components/ProductCategories
 import ProductDescription from '@/app/create/product/components/ProductDescription';
 import ProductPrice from '@/app/create/product/components/ProductPrice';
 import ProductSummary from '@/app/create/product/components/ProductSummary';
+import { GET_MY_PRODUCTS } from '@/graphql/queries';
 
 export type CategoriesType = {
 	id: string;
@@ -28,7 +29,9 @@ const CreateProductPage: NextPage = ({}) => {
 
 	const router = useRouter();
 
-	const [createProduct, result] = useMutation(CREATE_PRODUCT);
+	const [createProduct, result] = useMutation(CREATE_PRODUCT, {
+		refetchQueries: [GET_MY_PRODUCTS],
+	});
 
 	const handleSubmit: React.FormEventHandler<HTMLFormElement> = e => {
 		e.preventDefault();

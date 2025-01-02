@@ -32,6 +32,7 @@ type LoginResponse {
 
 type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
+  deleteProduct(id: String!): Product!
   login(loginInput: LoginInput!): LoginResponse!
   registerUser(registerUserInput: RegisterUserInput!): User!
   updateProduct(id: String!, updateProductInput: CreateProductInput!): Product!
@@ -58,7 +59,6 @@ type ProductCategoryMap {
 }
 
 type Query {
-  deleteProductById(id: String!): String!
   getCategories: [Category!]!
   getMyProducts: [Product!]!
   getProductById(id: String!): Product!

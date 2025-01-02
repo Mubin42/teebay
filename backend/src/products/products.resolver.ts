@@ -7,11 +7,11 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { Category } from './entities/category.entity';
 
+@UseGuards(AuthGuard)
 @Resolver(() => Product)
 export class ProductsResolver {
   constructor(private readonly productsService: ProductsService) {}
 
-  @UseGuards(AuthGuard)
   @Mutation(() => Product)
   async createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,
@@ -29,6 +29,11 @@ export class ProductsResolver {
     return this.productsService.updateProduct(id, updateProductInput, user);
   }
 
+  @Mutation(() => Product)
+  async deleteProduct(@Args('id') id: string) {
+    return this.productsService.delete(id);
+  }
+
   @Query(() => [Product])
   async getMyProducts(@LoggedInUser() user: LoggedInUser) {
     return this.productsService.findProductsByUser(user);
@@ -37,11 +42,6 @@ export class ProductsResolver {
   @Query(() => Product)
   async getProductById(@Args('id') id: string) {
     return this.productsService.findProductById(id);
-  }
-
-  @Query(() => String)
-  async deleteProductById(@Args('id') id: string) {
-    return this.productsService.delete(id);
   }
 
   @Query(() => [Category])
