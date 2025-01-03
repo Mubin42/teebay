@@ -59,3 +59,63 @@ export const GET_PRODUCT = gql`
 		}
 	}
 `;
+
+export const GET_AVAILABLE_PRODUCTS = gql`
+	query GetAvailableProducts {
+		getAvailableProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+		}
+	}
+`;
+
+export const GET_BOUGHT_PRODUCTS = gql`
+	query GetBoughtProducts {
+		getBoughtProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+		}
+	}
+`;
+
+export const GET_SOLD_PRODUCTS = gql`
+	query GetSoldProducts {
+		getSoldProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+		}
+	}
+`;

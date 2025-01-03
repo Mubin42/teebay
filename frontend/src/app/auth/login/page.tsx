@@ -56,6 +56,7 @@ const LoginPage: NextPage = () => {
 		<FormWrapper
 			title='Login'
 			description='Please enter your credential to login'
+			className='w-1/3'
 		>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<div className='flex flex-col gap-6'>

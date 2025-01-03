@@ -59,10 +59,15 @@ type ProductCategoryMap {
 }
 
 type Query {
+  getAvailableProducts: [Product!]!
+  getBorrowedProducts: [Product!]!
+  getBoughtProducts: [Product!]!
   getCategories: [Category!]!
+  getLentProducts: [Product!]!
   getMyProducts: [Product!]!
   getProduct(id: String!): Product!
   getSelf: Self!
+  getSoldProducts: [Product!]!
 }
 
 input RegisterUserInput {
