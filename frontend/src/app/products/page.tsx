@@ -51,6 +51,7 @@ const ViewAvailableProductsPage: NextPage = () => {
 					<CardHeader>
 						<CardTitle>{item.title}</CardTitle>
 						<CardDescription>{`Created At: ${moment(item.createdAt).calendar()}`}</CardDescription>
+						<CardDescription>{`Posted By: ${item.user.firstName} ${item.user.lastName}`}</CardDescription>
 						<CardDescription>{`Views: ${item.views}`}</CardDescription>
 					</CardHeader>
 					<CardContent>
@@ -73,7 +74,7 @@ const ViewAvailableProductsPage: NextPage = () => {
 				</Card>
 			))
 		) : (
-			<p>No products available</p>
+			<p>No products have been bought by this user</p>
 		);
 	return (
 		<PageWrapper title='View Products for buy and rent'>

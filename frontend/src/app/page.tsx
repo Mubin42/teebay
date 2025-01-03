@@ -7,17 +7,12 @@ import { useQuery } from '@apollo/client';
 import { GET_MY_PRODUCTS } from '@/graphql/queries';
 import DeleteProductDialog from '@/components/dialogs/DeleteProductDialog';
 import { useState } from 'react';
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from '@/components/ui/card';
+import { CardDescription, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Edit, Trash } from 'lucide-react';
 import moment from 'moment';
+import { Product } from '@/types/ProductType';
+import ProductCard from '@/components/cards/ProductCard';
 
 const Home: NextPage = () => {
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -26,58 +21,80 @@ const Home: NextPage = () => {
 		title: string;
 	}>();
 
-	const { data, loading } = useQuery(GET_MY_PRODUCTS);
+	const { data, loading } = useQuery<{ getMyProducts: Product[] }>(
+		GET_MY_PRODUCTS
+	);
 
 	const handleDelete = (id: string, title: string) => {
 		setSelectedProduct({ id, title });
 		setOpenDeleteDialog(true);
 	};
 
+	const buttons = (
+		<div className='flex gap-2'>
+			<Link href='create/product'>
+				<Button>Add Product</Button>
+			</Link>
+			<Link href='/products'>
+				<Button>Buy/Rent Products</Button>
+			</Link>
+			<Link href='/histories/'>
+				<Button>View Purchase History</Button>
+			</Link>
+		</div>
+	);
+
 	const renderProducts =
-		data?.getMyProducts.length > 0 ? (
+		data?.getMyProducts && data?.getMyProducts.length > 0 ? (
 			data?.getMyProducts?.map((item: any, index: number) => (
-				<Card key={index} className='w-[350px]'>
-					<CardHeader>
-						<CardTitle>{item.title}</CardTitle>
-						<CardDescription>{`Created At: ${moment(item.createdAt).calendar()}`}</CardDescription>
-						<CardDescription>{`Views: ${item.views}`}</CardDescription>
-					</CardHeader>
-					<CardContent>
-						<CardDescription>{item.description}</CardDescription>
-						<div className='flex items-center gap-2'>
-							<Label className='font-semibold'>Categories: </Label>
-							<span className='text-sm'>
-								{item?.categoryMaps
-									.map((catMap: any) => catMap.category.name)
-									.join(', ')}
-							</span>
-						</div>
-					</CardContent>
-					<CardFooter className='justify-end gap-2'>
-						<Link href={`/update/${item.id}/product`}>
-							<Button variant='outline' size='icon'>
-								<Edit className='h-4 w-4' />
+				<ProductCard
+					key={index}
+					header={
+						<>
+							<CardTitle>{item.title}</CardTitle>
+							<CardDescription>{`Created At: ${moment(item.createdAt).calendar()}`}</CardDescription>
+							<CardDescription>{`Views: ${item.views}`}</CardDescription>
+						</>
+					}
+					footer={
+						<>
+							<Link href={`/update/${item.id}/product`}>
+								<Button variant='outline' size='icon'>
+									<Edit className='h-4 w-4' />
+								</Button>
+							</Link>
+							<Button
+								variant='destructive'
+								size='icon'
+								onClick={() => handleDelete(item.id, item.title)}
+							>
+								<Trash className='h-4 w-4' />
 							</Button>
-						</Link>
-						<Button
-							variant='destructive'
-							size='icon'
-							onClick={() => handleDelete(item.id, item.title)}
-						>
-							<Trash className='h-4 w-4' />
-						</Button>
-					</CardFooter>
-				</Card>
+						</>
+					}
+				>
+					<CardDescription>{item.description}</CardDescription>
+					<div className='flex items-center gap-2'>
+						<Label className='font-semibold'>Categories: </Label>
+						<span className='text-sm'>
+							{item?.categoryMaps
+								.map((catMap: any) => catMap.category.name)
+								.join(', ')}
+						</span>
+					</div>
+				</ProductCard>
 			))
 		) : (
-			<p>No products added</p>
+			<p>No products added by this user</p>
 		);
 
 	return (
 		<PageWrapper title='My Products'>
-			<Link href='create/product'>
-				<Button>Add Product</Button>
-			</Link>
+			{buttons}
+			<div>
+				If nothing shows up when you open this page, please go to auth/login
+				page
+			</div>
 			<div className='flex flex-col gap-4'>
 				{renderProducts}
 				<DeleteProductDialog

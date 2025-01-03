@@ -76,6 +76,12 @@ export const GET_AVAILABLE_PRODUCTS = gql`
 					name
 				}
 			}
+			user {
+				id
+				firstName
+				lastName
+				email
+			}
 		}
 	}
 `;
@@ -96,6 +102,12 @@ export const GET_BOUGHT_PRODUCTS = gql`
 					name
 				}
 			}
+			user {
+				id
+				firstName
+				lastName
+				email
+			}
 		}
 	}
 `;
@@ -115,6 +127,74 @@ export const GET_SOLD_PRODUCTS = gql`
 					id
 					name
 				}
+			}
+			user {
+				id
+				firstName
+				lastName
+				email
+			}
+
+			purchase {
+				id
+				user {
+					id
+					firstName
+					lastName
+					email
+				}
+			}
+		}
+	}
+`;
+
+export const GET_BORROWED_PRODUCTS = gql`
+	query GetBorrowedProducts {
+		getBorrowedProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+			user {
+				id
+				firstName
+				lastName
+				email
+			}
+		}
+	}
+`;
+
+export const GET_LENT_PRODUCTS = gql`
+	query GetLentProducts {
+		getLentProducts {
+			id
+			title
+			description
+			price
+			rentPricePerDay
+			views
+			createdAt
+			categoryMaps {
+				category {
+					id
+					name
+				}
+			}
+			user {
+				id
+				firstName
+				lastName
+				email
 			}
 		}
 	}
