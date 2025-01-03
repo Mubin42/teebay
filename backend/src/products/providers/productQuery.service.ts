@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { DatabaseService } from '../../utilities/database/database.service';
 import { LoggedInUser } from '../../common/decorators/loggedInUser.decorator';
-import { RentProductInput } from '../dto/rentProduct.input';
-import { PurchaseProductInput } from '../dto/purchaseProduct.input';
 
 @Injectable()
 export class ProductQueryService {
@@ -65,72 +63,6 @@ export class ProductQueryService {
     return this.databaseService.category.findMany();
   }
 
-  async rentProduct(rentProductInput: RentProductInput, user: LoggedInUser) {
-    const product = await this.databaseService.product.findUnique({
-      where: {
-        id: rentProductInput.productId,
-      },
-    });
-
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
-
-    // check if the product is already rented
-    const isProductRented = await this.databaseService.rent.findFirst({
-      where: {
-        productId: rentProductInput.productId,
-        AND: [
-          {
-            startDay: {
-              lte: rentProductInput.endDay,
-            },
-          },
-          {
-            endDay: {
-              gte: rentProductInput.startDay,
-            },
-          },
-        ],
-      },
-    });
-
-    if (isProductRented) {
-      throw new NotFoundException('Product is already rented');
-    }
-
-    return this.databaseService.rent.create({
-      data: {
-        startDay: rentProductInput.startDay,
-        endDay: rentProductInput.endDay,
-        productId: rentProductInput.productId,
-        userId: user.id,
-      },
-    });
-  }
-
-  async purchaseProduct(
-    purchaseProductInput: PurchaseProductInput,
-    user: LoggedInUser,
-  ) {
-    const product = await this.databaseService.product.findUnique({
-      where: {
-        id: purchaseProductInput.productId,
-      },
-    });
-
-    if (!product) {
-      throw new NotFoundException('Product not found');
-    }
-
-    return this.databaseService.purchase.create({
-      data: {
-        productId: purchaseProductInput.productId,
-        userId: user.id,
-      },
-    });
-  }
-
   async getAllAvailableProducts(user: LoggedInUser) {
     return this.databaseService.product.findMany({
       where: {
@@ -167,6 +99,7 @@ export class ProductQueryService {
         },
       },
       include: {
+        user: true,
         categoryMaps: {
           include: {
             category: true,
@@ -181,14 +114,18 @@ export class ProductQueryService {
       where: {
         userId: user.id,
         purchase: {
-          isNot: {
-            id: {
-              not: undefined,
-            },
+          id: {
+            not: undefined,
           },
         },
       },
       include: {
+        user: true,
+        purchase: {
+          include: {
+            user: true,
+          },
+        },
         categoryMaps: {
           include: {
             category: true,
@@ -223,6 +160,7 @@ export class ProductQueryService {
         },
       },
       include: {
+        user: true,
         categoryMaps: {
           include: {
             category: true,
@@ -259,6 +197,7 @@ export class ProductQueryService {
         },
       },
       include: {
+        user: true,
         categoryMaps: {
           include: {
             category: true,

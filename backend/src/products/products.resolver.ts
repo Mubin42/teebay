@@ -55,7 +55,7 @@ export class ProductsResolver {
     @Args('rentProductInput') rentProductInput: RentProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return this.productQueryService.rentProduct(rentProductInput, user);
+    return this.productMutationService.rentProduct(rentProductInput, user);
   }
 
   @Mutation(() => Purchase)
@@ -63,7 +63,10 @@ export class ProductsResolver {
     @Args('purchaseProductInput') purchaseProductInput: PurchaseProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return this.productQueryService.purchaseProduct(purchaseProductInput, user);
+    return this.productMutationService.purchaseProduct(
+      purchaseProductInput,
+      user,
+    );
   }
 
   @Query(() => [Product])

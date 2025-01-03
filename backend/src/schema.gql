@@ -46,6 +46,7 @@ type Product {
   description: String
   id: ID!
   price: Float!
+  purchase: Purchase!
   rentPricePerDay: Float!
   title: String!
   user: User!

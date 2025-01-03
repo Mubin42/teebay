@@ -3,6 +3,8 @@ import { DatabaseService } from '../../utilities/database/database.service';
 import { CreateProductInput } from '../dto/createProduct.input';
 import { LoggedInUser } from '../../common/decorators/loggedInUser.decorator';
 import { UpdateProductInput } from '../dto/updateProduct.input';
+import { RentProductInput } from '../dto/rentProduct.input';
+import { PurchaseProductInput } from '../dto/purchaseProduct.input';
 
 @Injectable()
 export class ProductMutationService {
@@ -33,7 +35,6 @@ export class ProductMutationService {
         price: createProductInput.price,
         rentPricePerDay: createProductInput.rentPricePerDay,
         userId: user.id,
-        // generate random number between 1 and 100
         views: Math.floor(Math.random() * 100) + 1,
       },
     });
@@ -115,5 +116,71 @@ export class ProductMutationService {
     });
 
     return updatedProduct;
+  }
+
+  async rentProduct(rentProductInput: RentProductInput, user: LoggedInUser) {
+    const product = await this.databaseService.product.findUnique({
+      where: {
+        id: rentProductInput.productId,
+      },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    // check if the product is already rented
+    const isProductRented = await this.databaseService.rent.findFirst({
+      where: {
+        productId: rentProductInput.productId,
+        AND: [
+          {
+            startDay: {
+              lte: rentProductInput.endDay,
+            },
+          },
+          {
+            endDay: {
+              gte: rentProductInput.startDay,
+            },
+          },
+        ],
+      },
+    });
+
+    if (isProductRented) {
+      throw new NotFoundException('Product is already rented');
+    }
+
+    return this.databaseService.rent.create({
+      data: {
+        startDay: rentProductInput.startDay,
+        endDay: rentProductInput.endDay,
+        productId: rentProductInput.productId,
+        userId: user.id,
+      },
+    });
+  }
+
+  async purchaseProduct(
+    purchaseProductInput: PurchaseProductInput,
+    user: LoggedInUser,
+  ) {
+    const product = await this.databaseService.product.findUnique({
+      where: {
+        id: purchaseProductInput.productId,
+      },
+    });
+
+    if (!product) {
+      throw new NotFoundException('Product not found');
+    }
+
+    return this.databaseService.purchase.create({
+      data: {
+        productId: purchaseProductInput.productId,
+        userId: user.id,
+      },
+    });
   }
 }

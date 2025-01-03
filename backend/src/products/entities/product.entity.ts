@@ -1,6 +1,7 @@
 import { ObjectType, Field, Float, ID } from '@nestjs/graphql';
 import { ProductCategoryMap } from './productCategoryMap.entity';
 import { User } from '../../users/entities/user.entity';
+import { Purchase } from './purchase.entities';
 
 @ObjectType()
 export class Product {
@@ -33,7 +34,7 @@ export class Product {
 
   @Field(() => [ProductCategoryMap])
   categoryMaps: ProductCategoryMap[];
-}
 
-@ObjectType()
-export class ProductWithRentedStatus extends Product {}
+  @Field(() => Purchase)
+  purchase: Purchase;
+}
