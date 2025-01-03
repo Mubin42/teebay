@@ -49,4 +49,29 @@ export class ProductsResolver {
   async getCategories() {
     return this.productsService.getCategories();
   }
+
+  @Query(() => [Product])
+  async getAvailableProducts(@LoggedInUser() user: LoggedInUser) {
+    return this.productsService.getAllAvailableProducts(user);
+  }
+
+  @Query(() => [Product])
+  async getBoughtProducts(@LoggedInUser() user: LoggedInUser) {
+    return this.productsService.getBoughtProducts(user);
+  }
+
+  @Query(() => [Product])
+  async getSoldProducts(@LoggedInUser() user: LoggedInUser) {
+    return this.productsService.getSoldProducts(user);
+  }
+
+  @Query(() => [Product])
+  async getBorrowedProducts(@LoggedInUser() user: LoggedInUser) {
+    return this.productsService.getBorrowedProducts(user);
+  }
+
+  @Query(() => [Product])
+  async getLentProducts(@LoggedInUser() user: LoggedInUser) {
+    return this.productsService.getLentProducts(user);
+  }
 }

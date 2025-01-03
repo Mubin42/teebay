@@ -154,7 +154,7 @@ export class ProductsService {
     return updatedProduct;
   }
 
-  async getAllProducts() {
+  async getAllAvailableProducts(user: LoggedInUser) {
     const now = new Date();
 
     return this.databaseService.product.findMany({
@@ -166,6 +166,10 @@ export class ProductsService {
               not: undefined,
             },
           },
+        },
+        // Show products that are not of the logged in user
+        userId: {
+          not: user.id,
         },
         // Show product that are not rented right now
         rents: {
@@ -182,6 +186,122 @@ export class ProductsService {
                 },
               },
             ],
+          },
+        },
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getBoughtProducts(user: LoggedInUser) {
+    return this.databaseService.product.findMany({
+      where: {
+        purchase: {
+          userId: user.id,
+        },
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getSoldProducts(user: LoggedInUser) {
+    return this.databaseService.product.findMany({
+      where: {
+        userId: user.id,
+        purchase: {
+          isNot: {
+            id: {
+              not: undefined,
+            },
+          },
+        },
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getBorrowedProducts(user: LoggedInUser) {
+    const now = new Date();
+    return this.databaseService.product.findMany({
+      where: {
+        rents: {
+          some: {
+            AND: [
+              {
+                startDay: {
+                  lte: now,
+                },
+              },
+              {
+                endDay: {
+                  gte: now,
+                },
+              },
+              {
+                userId: user.id,
+              },
+            ],
+          },
+        },
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
+          },
+        },
+      },
+    });
+  }
+
+  async getLentProducts(user: LoggedInUser) {
+    const now = new Date();
+    return this.databaseService.product.findMany({
+      where: {
+        rents: {
+          some: {
+            AND: [
+              {
+                startDay: {
+                  lte: now,
+                },
+              },
+              {
+                endDay: {
+                  gte: now,
+                },
+              },
+              {
+                userId: {
+                  not: user.id,
+                },
+              },
+            ],
+          },
+        },
+      },
+      include: {
+        categoryMaps: {
+          include: {
+            category: true,
           },
         },
       },
