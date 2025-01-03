@@ -106,9 +106,9 @@ type Rent {
 }
 
 input RentProductInput {
-  endDay: DateTime!
+  endDay: String!
   productId: String!
-  startDay: DateTime!
+  startDay: String!
 }
 
 type Self {

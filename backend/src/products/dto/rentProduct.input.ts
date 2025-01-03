@@ -1,6 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
-import { Transform } from 'class-transformer';
 
 @InputType()
 export class RentProductInput {
@@ -12,12 +11,10 @@ export class RentProductInput {
   @Field()
   @IsString()
   @IsDateString()
-  @Transform(({ value }) => new Date(value))
-  startDay: Date;
+  startDay: string;
 
   @Field()
   @IsString()
   @IsDateString()
-  @Transform(({ value }) => new Date(value))
-  endDay: Date;
+  endDay: string;
 }

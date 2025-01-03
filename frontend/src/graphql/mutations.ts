@@ -56,3 +56,25 @@ export const DELETE_PRODUCT = gql`
 		}
 	}
 `;
+
+export const RENT_PRODUCT = gql`
+	mutation RentProduct($rentProductInput: RentProductInput!) {
+		rentProduct(rentProductInput: $rentProductInput) {
+			id
+			startDay
+			endDay
+			productId
+			userId
+		}
+	}
+`;
+
+export const PURCHASE_PRODUCT = gql`
+	mutation PurchaseProduct($purchaseProductInput: PurchaseProductInput!) {
+		purchaseProduct(purchaseProductInput: $purchaseProductInput) {
+			id
+			productId
+			userId
+		}
+	}
+`;

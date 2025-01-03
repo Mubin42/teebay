@@ -15,9 +15,34 @@ import {
 import { Label } from '@/components/ui/label';
 import { useQuery } from '@apollo/client';
 import { GET_AVAILABLE_PRODUCTS } from '@/graphql/queries';
+import { useState } from 'react';
+import RentProductDialog from '@/app/products/components/RentProductDialog';
+import BuyProductDialog from '@/app/products/components/BuyProductDialog';
+
+export type ProductType = {
+	id: string;
+	title: string;
+	price: number;
+	rentPricePerDay: number;
+};
 
 const ViewAvailableProductsPage: NextPage = () => {
 	const { data, loading } = useQuery(GET_AVAILABLE_PRODUCTS);
+
+	// states
+	const [selectedProduct, setSelectedProduct] = useState<ProductType>();
+	const [openRentDialog, setOpenRentDialog] = useState(false);
+	const [openBuyDialog, setOpenBuyDialog] = useState(false);
+
+	const handleRentDialog = (product: ProductType) => {
+		setSelectedProduct(product);
+		setOpenRentDialog(true);
+	};
+
+	const handleBuyDialog = (product: ProductType) => {
+		setSelectedProduct(product);
+		setOpenBuyDialog(true);
+	};
 
 	const renderProducts =
 		data?.getAvailableProducts.length > 0 ? (
@@ -40,8 +65,10 @@ const ViewAvailableProductsPage: NextPage = () => {
 						</div>
 					</CardContent>
 					<CardFooter className='justify-end gap-2'>
-						<Button variant='outline'>Rent</Button>
-						<Button>Buy</Button>
+						<Button variant='outline' onClick={() => handleRentDialog(item)}>
+							Rent
+						</Button>
+						<Button onClick={() => handleBuyDialog(item)}>Buy</Button>
 					</CardFooter>
 				</Card>
 			))
@@ -51,6 +78,20 @@ const ViewAvailableProductsPage: NextPage = () => {
 	return (
 		<PageWrapper title='View Products for buy and rent'>
 			<div className='flex flex-col gap-4'>{renderProducts}</div>
+			<RentProductDialog
+				open={{
+					value: openRentDialog,
+					set: setOpenRentDialog,
+				}}
+				product={selectedProduct}
+			/>
+			<BuyProductDialog
+				open={{
+					value: openBuyDialog,
+					set: setOpenBuyDialog,
+				}}
+				product={selectedProduct}
+			/>
 		</PageWrapper>
 	);
 };
