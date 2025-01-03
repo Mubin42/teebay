@@ -14,6 +14,7 @@ export const seedProducts = [
     description: '128GB, Phantom Black, 5G',
     price: 30000,
     rentPricePerDay: 900,
+    views: 20,
     userId: 'cm5g8mhx400003b6joalmix67', // Reference of John Doe
   },
   {
@@ -22,6 +23,7 @@ export const seedProducts = [
     description: '13-inch, M1 Chip, 8GB RAM, 256GB SSD',
     price: 50000,
     rentPricePerDay: 1500,
+    views: 25,
     userId: 'cm5g8n1x300013b6j3z1z1z1z', // Reference of Jane Doe
   },
   {
@@ -30,6 +32,7 @@ export const seedProducts = [
     description: '13-inch, 11th Gen Intel Core i7, 16GB RAM, 512GB SSD',
     price: 60000,
     rentPricePerDay: 1800,
+    views: 15,
     userId: 'cm5g8n1x300013b6j3z1z1z1z', // Reference of Jane Doe
   },
   {
@@ -38,6 +41,16 @@ export const seedProducts = [
     description: 'AMD Ryzen 9 5950X, 32GB RAM, 1TB SSD, RTX 3080',
     price: 70000,
     rentPricePerDay: 2000,
+    views: 10,
     userId: 'cm5g8n1x300013b6j3z1z1z2', // Reference of Kazi Ehsanul Mubin
+  },
+  {
+    id: 'cm5gkjcx200033b6jm881ff64',
+    title: 'LG Smart TV',
+    description: '55-inch, 4K UHD, WebOS, ThinQ AI',
+    price: 40000,
+    rentPricePerDay: 1200,
+    views: 5,
+    userId: 'cm5g8mhx400003b6joalmix67', // Reference of Kazi Ehsanul Mubin
   },
 ];
