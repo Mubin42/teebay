@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Edit, Trash } from 'lucide-react';
+import moment from 'moment';
 
 const Home: NextPage = () => {
 	const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
 				<Card key={index} className='w-[350px]'>
 					<CardHeader>
 						<CardTitle>{item.title}</CardTitle>
-						<CardDescription>{`Created At: ${item.createdAt}`}</CardDescription>
+						<CardDescription>{`Created At: ${moment(item.createdAt).calendar()}`}</CardDescription>
 						<CardDescription>{`Views: ${item.views}`}</CardDescription>
 					</CardHeader>
 					<CardContent>

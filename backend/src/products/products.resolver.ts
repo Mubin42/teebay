@@ -7,6 +7,10 @@ import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from '../common/guards/auth.guard';
 import { Category } from './entities/category.entity';
 import { UpdateProductInput } from './dto/updateProduct.input';
+import { RentProductInput } from './dto/rentProduct.input';
+import { Rent } from './entities/rent.entities';
+import { PurchaseProductInput } from './dto/purchaseProduct.input';
+import { Purchase } from './entities/purchase.entities';
 
 @UseGuards(AuthGuard)
 @Resolver(() => Product)
@@ -33,6 +37,22 @@ export class ProductsResolver {
   @Mutation(() => Product)
   async deleteProduct(@Args('id') id: string) {
     return this.productsService.delete(id);
+  }
+
+  @Mutation(() => Rent)
+  async rentProduct(
+    @Args('rentProductInput') rentProductInput: RentProductInput,
+    @LoggedInUser() user: LoggedInUser,
+  ) {
+    return this.productsService.rentProduct(rentProductInput, user);
+  }
+
+  @Mutation(() => Purchase)
+  async purchaseProduct(
+    @Args('purchaseProductInput') purchaseProductInput: PurchaseProductInput,
+    @LoggedInUser() user: LoggedInUser,
+  ) {
+    return this.productsService.purchaseProduct(purchaseProductInput, user);
   }
 
   @Query(() => [Product])

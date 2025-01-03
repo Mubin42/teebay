@@ -34,7 +34,9 @@ type Mutation {
   createProduct(createProductInput: CreateProductInput!): Product!
   deleteProduct(id: String!): Product!
   login(loginInput: LoginInput!): LoginResponse!
+  purchaseProduct(purchaseProductInput: PurchaseProductInput!): Purchase!
   registerUser(registerUserInput: RegisterUserInput!): User!
+  rentProduct(rentProductInput: RentProductInput!): Rent!
   updateProduct(id: String!, updateProductInput: UpdateProductInput!): Product!
 }
 
@@ -58,6 +60,19 @@ type ProductCategoryMap {
   productId: ID!
 }
 
+type Purchase {
+  createdAt: DateTime!
+  id: ID!
+  product: Product!
+  productId: String!
+  user: User!
+  userId: String!
+}
+
+input PurchaseProductInput {
+  productId: String!
+}
+
 type Query {
   getAvailableProducts: [Product!]!
   getBorrowedProducts: [Product!]!
@@ -77,6 +92,23 @@ input RegisterUserInput {
   lastName: String!
   password: String!
   phoneNumber: String
+}
+
+type Rent {
+  createdAt: DateTime!
+  endDay: DateTime!
+  id: ID!
+  product: Product!
+  productId: String!
+  startDay: DateTime!
+  user: User!
+  userId: String!
+}
+
+input RentProductInput {
+  endDay: DateTime!
+  productId: String!
+  startDay: DateTime!
 }
 
 type Self {

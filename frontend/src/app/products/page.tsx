@@ -1,5 +1,6 @@
 'use client';
 
+import moment from 'moment';
 import { NextPage } from 'next';
 import { Button } from '@/components/ui/button';
 import PageWrapper from '@/components/wrappers/PageWrapper';
@@ -24,7 +25,7 @@ const ViewAvailableProductsPage: NextPage = () => {
 				<Card key={index} className='w-[350px]'>
 					<CardHeader>
 						<CardTitle>{item.title}</CardTitle>
-						<CardDescription>{`Created At: ${item.createdAt}`}</CardDescription>
+						<CardDescription>{`Created At: ${moment(item.createdAt).calendar()}`}</CardDescription>
 						<CardDescription>{`Views: ${item.views}`}</CardDescription>
 					</CardHeader>
 					<CardContent>
