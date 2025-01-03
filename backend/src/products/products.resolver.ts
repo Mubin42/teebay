@@ -1,5 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { ProductsService } from './products.service';
+import { ProductQueryService } from './providers/productQuery.service';
 import { Product } from './entities/product.entity';
 import { CreateProductInput } from './dto/createProduct.input';
 import { LoggedInUser } from '../common/decorators/loggedInUser.decorator';
@@ -11,18 +11,25 @@ import { RentProductInput } from './dto/rentProduct.input';
 import { Rent } from './entities/rent.entities';
 import { PurchaseProductInput } from './dto/purchaseProduct.input';
 import { Purchase } from './entities/purchase.entities';
+import { ProductMutationService } from './providers/productMutation.service';
 
 @UseGuards(AuthGuard)
 @Resolver(() => Product)
 export class ProductsResolver {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(
+    private readonly productQueryService: ProductQueryService,
+    private readonly productMutationService: ProductMutationService,
+  ) {}
 
   @Mutation(() => Product)
   async createProduct(
     @Args('createProductInput') createProductInput: CreateProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return await this.productsService.create(createProductInput, user);
+    return await this.productMutationService.createProduct(
+      createProductInput,
+      user,
+    );
   }
 
   @Mutation(() => Product)
@@ -31,12 +38,16 @@ export class ProductsResolver {
     @Args('updateProductInput') updateProductInput: UpdateProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return this.productsService.updateProduct(id, updateProductInput, user);
+    return this.productMutationService.updateProduct(
+      id,
+      updateProductInput,
+      user,
+    );
   }
 
   @Mutation(() => Product)
   async deleteProduct(@Args('id') id: string) {
-    return this.productsService.delete(id);
+    return this.productMutationService.deleteProduct(id);
   }
 
   @Mutation(() => Rent)
@@ -44,7 +55,7 @@ export class ProductsResolver {
     @Args('rentProductInput') rentProductInput: RentProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return this.productsService.rentProduct(rentProductInput, user);
+    return this.productQueryService.rentProduct(rentProductInput, user);
   }
 
   @Mutation(() => Purchase)
@@ -52,46 +63,46 @@ export class ProductsResolver {
     @Args('purchaseProductInput') purchaseProductInput: PurchaseProductInput,
     @LoggedInUser() user: LoggedInUser,
   ) {
-    return this.productsService.purchaseProduct(purchaseProductInput, user);
+    return this.productQueryService.purchaseProduct(purchaseProductInput, user);
   }
 
   @Query(() => [Product])
   async getMyProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.findProductsByUser(user);
+    return this.productQueryService.findProductsByUser(user);
   }
 
   @Query(() => Product)
   async getProduct(@Args('id') id: string) {
-    return this.productsService.findProductById(id);
+    return this.productQueryService.findProductById(id);
   }
 
   @Query(() => [Category])
   async getCategories() {
-    return this.productsService.getCategories();
+    return this.productQueryService.getCategories();
   }
 
   @Query(() => [Product])
   async getAvailableProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.getAllAvailableProducts(user);
+    return this.productQueryService.getAllAvailableProducts(user);
   }
 
   @Query(() => [Product])
   async getBoughtProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.getBoughtProducts(user);
+    return this.productQueryService.getBoughtProducts(user);
   }
 
   @Query(() => [Product])
   async getSoldProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.getSoldProducts(user);
+    return this.productQueryService.getSoldProducts(user);
   }
 
   @Query(() => [Product])
   async getBorrowedProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.getBorrowedProducts(user);
+    return this.productQueryService.getBorrowedProducts(user);
   }
 
   @Query(() => [Product])
   async getLentProducts(@LoggedInUser() user: LoggedInUser) {
-    return this.productsService.getLentProducts(user);
+    return this.productQueryService.getLentProducts(user);
   }
 }
