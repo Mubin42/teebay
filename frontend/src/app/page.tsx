@@ -91,10 +91,6 @@ const Home: NextPage = () => {
 	return (
 		<PageWrapper title='My Products'>
 			{buttons}
-			<div>
-				If nothing shows up when you open this page, please go to auth/login
-				page
-			</div>
 			<div className='flex flex-col gap-4'>
 				{renderProducts}
 				<DeleteProductDialog

@@ -42,6 +42,11 @@ cd backend
 npm install
 ```
 
+Add database migration by running the following command.
+```bash
+npx prisma migrate dev
+```
+
 Before running the backend, you need to seed the database with some initial data. Run the following command to seed the database.
 ```bash
 npm run seed

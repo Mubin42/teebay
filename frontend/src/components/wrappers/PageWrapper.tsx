@@ -1,6 +1,7 @@
 import Header from '@/components/header/Header';
-import React, { FC } from 'react';
+import React, {FC, useEffect} from 'react';
 import { cn } from '@/lib/utils';
+import {AUTH_TOKEN_NAME} from "@/lib/constants";
 
 type Props = {
 	children: React.ReactNode;
@@ -9,6 +10,12 @@ type Props = {
 };
 
 const PageWrapper: FC<Props> = ({ children, title, className }) => {
+
+	// We need to check if the user is authenticated, if not redirect to login page
+	useEffect(() => {
+		localStorage.getItem(AUTH_TOKEN_NAME) || window.location.replace('/auth/login')
+	}, [localStorage.getItem(AUTH_TOKEN_NAME)])
+
 	return (
 		<div className='flex h-screen flex-col'>
 			<Header title={title} />
