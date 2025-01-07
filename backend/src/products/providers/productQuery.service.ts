@@ -82,6 +82,7 @@ export class ProductQueryService {
         rents: this.notRentedProductLogic,
       },
       include: {
+        user: true,
         categoryMaps: {
           include: {
             category: true,
