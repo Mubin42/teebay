@@ -1,6 +1,6 @@
 # Teebay
 
-Teebay is a simple web application that allows users to post products for buy, sell or rent. This application is developed as part of coding challenge for a job interview.
+Teebay is a simple web application that allows users to post products for buy, sell or rent.
 
 ## Features
 - User can post a product for sell and rent.
